@@ -1,10 +1,14 @@
-import java.util.Scanner;
+import java.util.*;
+import java.io.File; 
+import java.io.FileNotFoundException;  
+
+//import org.json.*;
 
 public class Adventure1 {
 
     /*
-    *TODO: Support for input adventure txt file
-    *
+    *TODO: Support for input adventure JSON file
+    *TODO: ADD in JSON libraries
     *TODO: Support for voice input
     *
     */
@@ -79,9 +83,19 @@ public class Adventure1 {
         return -1;
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws FileNotFoundException{
 
         int result;
+        String input = "";
+        File file = new File(args[0]);
+        Scanner sc = new Scanner(file);
+        sc.useDelimiter("\0");
+        input = sc.next();
+        sc.close();
+
+
+        //JSONObject input = new JSONObject(args[0]);
+        System.out.println(data);
         Adventure1 adv1 = new Adventure1();
         result = startGame();
 
