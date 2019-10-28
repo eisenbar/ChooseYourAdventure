@@ -1,4 +1,4 @@
 # ChooseYourAdventure
 GVSU Honors Senior Proj. Fall 2019
 
-Look inside src for the most recent data
+All of the project will be in the TestFolder. When running locally be sure to include .jars in build
