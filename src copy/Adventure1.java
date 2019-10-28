@@ -1,118 +1,156 @@
 import java.util.*;
-import java.io.File; 
-import java.io.FileNotFoundException; 
+import java.io.File;
+import java.io.FileNotFoundException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class Adventure1 extends LevelObject{
-
-   
+public class Adventure1 {
 
 	/*
-    *TODO: Support for input adventure JSON file
-    *TODO: ADD in JSON libraries
-    *TODO: Support for voice input
-    *
-    */
-	 public Adventure1(String level) {
-			super(level);
-			
+	 * TODO: Support for input adventure JSON file TODO: make function for
+	 * gameplay loop independent of # of rounds
+	 *
+	 */
+
+	private static ParseAudio parser;
+
+	//Constructor
+	public Adventure1() {
+
+		this.parser = new ParseAudio();
+		return;
 	}
-	 
-    private static int startGame() {
 
-        int binaryDecision = -1;
+	//Main Method that is called
+	public static void main(String args[]) {
 
-        System.out.println("Welcome to the Game!");
-        System.out.println("The Goal is to find the treasure!");
-        System.out.println("Do you want to go left or right");
-        binaryDecision = getInput("Left", "Right");
+		int result = 0;
+		String input = "";
 
-        if(binaryDecision == 0){
-            System.out.println("You went left!");
-        }
+		try {
 
-        else if(binaryDecision == 1){
-            System.out.println("You went right!");
-        }
+			File file = new File("adv1.json");
+			Scanner sc = new Scanner(file);
+			sc.useDelimiter("\0");
+			input = sc.next();
+			sc.close();
 
-        else{
-            System.out.println("Game Over!"); 
-        }
+			Adventure1 adv1 = new Adventure1();
+			LevelObject level = new LevelObject(input);
+			result = adv1.startGame(level);
 
-        return 0;
-    }
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
-    /*
-    *Takes in two options and grabs the input from the 
-    *user. Supports keyboard input and 2 decisions.
-    */
-    private static int getInput(String option1, String option2) {
-        String d = "";
-        Scanner input = new Scanner(System.in);
-        boolean loop = true;
+		return;
+	}
 
-        System.out.print("(" + option1 + " or "+ option2 + "): ");
+	private static int startGame(LevelObject level) {
 
-        while (loop) {
-            d = input.nextLine();
-            
-            //option1 chosen
-            if (d.equalsIgnoreCase(option1)) {
-                input.close();
-                return 0;
-            } 
-            
-            //option2 chosen
-            else if (d.equalsIgnoreCase(option2)) {
-                input.close();
-                return 1;
-            } 
-            
-            //quits
-            else if (d.equalsIgnoreCase("quit")) {
-                loop = false;
-            } 
-            
-            //bad input
-            else {
-                System.out.println("Try Again");
-                System.out.print("(" + option1 + " or "+ option2 + "): ");
-            }
-        }
+		String endResult;
 
-        input.close();
-        return -1;
-    }
-    
-    public static void main(String args[]){
+		System.out.println("Welcome to the Game!");
+		promptEnterKey();
+		endResult = gamePlayLoop(level, level.getRound(0));
 
-        //int result;
-        String input = "";
-        
-        
-        try{
-        	
-        	File file = new File("adv1.json");
-            Scanner sc = new Scanner(file);
-            sc.useDelimiter("\0");
-            input = sc.next();
-            sc.close();
-            
-            LevelObject level = new LevelObject(input);
-            System.out.println(level.getRound(0));
-        
-        }
-        catch (FileNotFoundException e){
-        	e.printStackTrace();
-        }
-        
-       // System.out.println(input);
-       // Adventure1 adv1 = new Adventure1();
-        //result = startGame();
+		return 0;
+	}
 
-        return;
-    }
+	private static String gamePlayLoop(LevelObject level, Round currentRound) {
+
+		String result = "";
+
+		// print text and question
+		System.out.println(currentRound.text);
+		System.out.println(currentRound.question);
+
+		// check if last round
+		if (currentRound.option1.equalsIgnoreCase("end") || currentRound.result1 == -1) {
+			return "end";
+		}
+
+		// grab audio input
+		try {
+			result = parser.parseInputStream(currentRound.option1, currentRound.option2);
+
+		} catch (Exception e) {
+			return "error";
+		}
+		// resolve if option1
+		if (result.equalsIgnoreCase(currentRound.option1)) {
+			return gamePlayLoop(level, level.getRound(currentRound.result1));
+		}
+
+		// resolve if option2
+		else if (result.equalsIgnoreCase(currentRound.option2)) {
+			return gamePlayLoop(level, level.getRound(currentRound.result2));
+		}
+
+		// resolve if stop
+		else if (result.equalsIgnoreCase("stop")) {
+			return "stop";
+		}
+
+		return "";
+	}
+
+	/*
+	 * Takes in two options and grabs the input from the user. Supports keyboard
+	 * input and 2 decisions. Currently not being used
+	 */
+	@SuppressWarnings("unused")
+	private static int getInput(String option1, String option2) {
+		String d = "";
+		Scanner input = new Scanner(System.in);
+		boolean loop = true;
+
+		System.out.print("(" + option1 + " or " + option2 + "): ");
+
+		while (loop) {
+			d = input.nextLine();
+
+			// option1 chosen
+			if (d.equalsIgnoreCase(option1)) {
+				input.close();
+				return 0;
+			}
+			// option2 chosen
+			else if (d.equalsIgnoreCase(option2)) {
+				input.close();
+				return 1;
+			}
+
+			// quits
+			else if (d.equalsIgnoreCase("quit")) {
+				loop = false;
+			}
+
+			// bad input
+			else {
+				System.out.println("Try Again");
+				System.out.print("(" + option1 + " or " + option2 + "): ");
+			}
+		}
+
+		input.close();
+		return -1;
+	}
+
+	
+	/*
+	 * HELPER METHODS BELOW
+	 */
+	
+	//Got this one from Stack Overflow
+	private static void promptEnterKey() {
+		System.out.println("Press \"ENTER\" to continue...");
+		Scanner scanner = new Scanner(System.in);
+		scanner.nextLine();
+		scanner.close();
+		return;
+	}
+
 }
