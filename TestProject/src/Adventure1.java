@@ -16,17 +16,16 @@ public class Adventure1 {
 
 	private static ParseAudio parser;
 
-	//Constructor
+	// Constructor
 	public Adventure1() {
 
 		this.parser = new ParseAudio();
 		return;
 	}
 
-	//Main Method that is called
+	// Main Method that is called
 	public static void main(String args[]) {
 
-		int result = 0;
 		String input = "";
 
 		try {
@@ -37,12 +36,10 @@ public class Adventure1 {
 			input = sc.next();
 			sc.close();
 
-			Adventure1 adv1 = new Adventure1();
 			LevelObject level = new LevelObject(input);
-			
-			Adventure1.startGame(level);
+			Adventure1 adv = new Adventure1();
 
-
+			adv.startGame(level);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -58,6 +55,8 @@ public class Adventure1 {
 		System.out.println("Welcome to the Game!");
 		promptEnterKey();
 		endResult = gamePlayLoop(level, level.getRound(0));
+		
+		System.out.println("This is the end result: " + endResult);
 
 		return 0;
 	}
@@ -142,12 +141,11 @@ public class Adventure1 {
 		return -1;
 	}
 
-	
 	/*
 	 * HELPER METHODS BELOW
 	 */
-	
-	//Got this one from Stack Overflow
+
+	// Got this one from Stack Overflow
 	private static void promptEnterKey() {
 		System.out.println("Press \"ENTER\" to continue...");
 		Scanner scanner = new Scanner(System.in);
