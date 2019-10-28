@@ -1,0 +1,26 @@
+{
+    "step1" : {
+        "text" : "This is step 1",
+        "question" : "This is the question pick 1 or 2",
+        "option1" : "one",
+        "option2" : "two",
+        "result1" : 2,
+        "result2" : 3
+    },
+    "step2" : {
+        "text" : "This is step 2",
+        "question" : "You have reached the end",
+        "option1" : "END",
+        "option2" : "END",
+        "result1" : -1,
+        "result2" : -1
+    },
+    "step3" : {
+        "text" : "This is step 3",
+        "question" : "You have reached the end",
+        "option1" : "END",
+        "option2" : "END",
+        "result1" : -1,
+        "result2" : -1
+    }
+}
