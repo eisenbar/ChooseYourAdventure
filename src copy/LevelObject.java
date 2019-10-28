@@ -6,7 +6,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class LevelObject extends Round{
+/*
+ * Level Object is just an array of rounds.
+ */
+public class LevelObject {
 
 	//Level of rounds
 	private ArrayList<Round> level;
@@ -56,8 +59,8 @@ public class LevelObject extends Round{
 		r.question = round.get("question").toString();
 		r.option1 = round.get("option1").toString();
 		r.option2 = round.get("option2").toString();
-		r.result1 = round.get("result1").toString();
-		r.result2 = round.get("result2").toString();
+		r.result1 = Integer.parseInt(round.get("result1").toString());
+		r.result2 = Integer.parseInt(round.get("result2").toString());
 	
 		return r;
 	}
