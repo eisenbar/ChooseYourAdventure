@@ -11,6 +11,7 @@ import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 public class ParseAudio {
 
 	private Configuration configuration;
+	public String hypothesis = "";
 
 	public ParseAudio(File file) {
 		return;
@@ -22,6 +23,7 @@ public class ParseAudio {
 		configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
 		configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
 		configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+		this.hypothesis = "";
 	}
 
 	public String parseInputWav(Configuration configuration, String inputWav) throws Exception {
@@ -52,6 +54,7 @@ public class ParseAudio {
 		while ((result = recognizer.getResult()) != null) {
 			String hypothesis = result.getHypothesis();
 			System.out.format("Hypothesis: %s\n", hypothesis);
+			hypothesis = result.getHypothesis();
 			if (hypothesis.equalsIgnoreCase("stop")) {
 				recognizer.stopRecognition();
 				return "stop";

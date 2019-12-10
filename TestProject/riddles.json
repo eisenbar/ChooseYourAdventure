@@ -1,0 +1,58 @@
+{
+    "step1" : {
+        "text" : "Welcome to a game of riddles!!",
+        "question" : "Do you want to hear some riddles?",
+        "option1" : "yes",
+        "option2" : "no",
+        "result1" : 3,
+        "result2" : 2
+    },
+    "step2": {
+        "text" : "Thank you for playing anyway",
+        "question" : " ",
+        "option1" : "END",
+        "option2" : "END",
+        "result1" : -1,
+        "result2" : -1
+    },
+    "step3" : {
+        "text" : "What gets wet while it's drying?",
+        "question" : " ",
+        "option1" : "towel",
+        "option2" : "i don't know",
+        "result1" : 4,
+        "result2" : 2
+    },
+    "step4" : {
+        "text" : "Nice job on the last one",
+        "question" : "What can go up a chimney down, but can’t go down a chimney up?",
+        "option1" : "umbrella",
+        "option2" : "i don't know",
+        "result1" : 5,
+        "result2" : 2
+    },
+    "step5" : {
+        "text" : "This one will be tricky",
+        "question" : "What comes down but never goes up?",
+        "option1" : "rain",
+        "option2" : "i don't know",
+        "result1" : 6,
+        "result2" : 2
+    },
+    "step6" : {
+        "text" : "Last riddle",
+        "question" : "What has one eye but can’t see?",
+        "option1" : "needle",
+        "option2" : "i don't know",
+        "result1" : 7,
+        "result2" : 2
+    },
+    "step7": {
+        "text" : "You won!!",
+        "question" : " ",
+        "option1" : "END",
+        "option2" : "END",
+        "result1" : -1,
+        "result2" : -1
+    }
+}

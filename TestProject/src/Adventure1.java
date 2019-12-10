@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -14,12 +15,19 @@ public class Adventure1 {
 	 *
 	 */
 
-	private static ParseAudio parser;
+	public static ParseAudio parser = new ParseAudio();
+	public static String question = "";
+	public static String hypothesis = "";
+	public static boolean gameOver = false;
 
 	// Constructor
 	public Adventure1() {
 
-		this.parser = new ParseAudio();
+		//this.parser = new ParseAudio();
+		this.question = "";
+		this.hypothesis = "";
+		this.gameOver = false;
+		
 		return;
 	}
 
@@ -30,7 +38,7 @@ public class Adventure1 {
 
 		try {
 
-			File file = new File("adv1.json");
+			File file = new File("riddles.json");
 			Scanner sc = new Scanner(file);
 			sc.useDelimiter("\0");
 			input = sc.next();
@@ -44,30 +52,40 @@ public class Adventure1 {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
 		return;
 	}
 
 	private static int startGame(LevelObject level) {
 
-		String endResult;
+		String endResult = "";
 
 		System.out.println("Welcome to the Game!");
-		promptEnterKey();
-		endResult = gamePlayLoop(level, level.getRound(0));
+		question = "Welcome to the Game!";
+		//promptEnterKey();
+		try {
+			endResult = gamePlayLoop(level, level.getRound(0));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		System.out.println("This is the end result: " + endResult);
+		question = "This is the end result: " + endResult;
+		gameOver = true;
+		
 
 		return 0;
 	}
 
-	private static String gamePlayLoop(LevelObject level, Round currentRound) {
+	private static String gamePlayLoop(LevelObject level, Round currentRound) throws InterruptedException {
 
 		String result = "";
 
 		// print text and question
 		System.out.println(currentRound.text);
+		question = currentRound.text;
+		TimeUnit.SECONDS.sleep(1);
 		System.out.println(currentRound.question);
+		question = currentRound.question;
 
 		// check if last round
 		if (currentRound.option1.equalsIgnoreCase("end") || currentRound.result1 == -1) {
